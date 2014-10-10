@@ -59,6 +59,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -77,9 +79,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SWDoor.cs" />
     <Compile Include="SWNormalWall.cs" />
+    <Compile Include="SwShearLine.cs" />
     <Compile Include="SWShearPanel.cs" />
     <Compile Include="SWShearWall.cs" />
     <Compile Include="SWUtils.cs" />
+    <Compile Include="SwWallPanel.cs" />
     <Compile Include="SWWindow.cs" />
   </ItemGroup>
   <ItemGroup>
