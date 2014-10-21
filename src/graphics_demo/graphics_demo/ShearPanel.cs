@@ -20,6 +20,7 @@ namespace graphics_demo
         public ShearPanel()
         {
             _type = PanelType.NormalWall;
+            _rect = new RectangleShape();
         }
 
         public ShearPanel(PanelType type, Vector2f start, Vector2f end)
@@ -27,6 +28,7 @@ namespace graphics_demo
             _type = type;
             _base = start;
             _end = end;
+            _rect = new RectangleShape();
         }
 
         private Vector2f _base;
@@ -34,6 +36,7 @@ namespace graphics_demo
         private double _length;
         private PanelType _type;
         private Color _color;
+        private RectangleShape _rect;
 
         protected Vector2f Base
         {

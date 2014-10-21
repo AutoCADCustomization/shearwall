@@ -7,37 +7,44 @@ using SFML.Window;
 
 namespace graphics_demo
 {
-    class ShearWallDemo
+    public class ShearWallDemo
     {
+        private RenderWindow _window;
+        public RenderWindow Window { get { return this._window; } }
+
         public ShearWallDemo()
         {
-            window = new RenderWindow(new VideoMode(800, 600), "SFML Works!");
-            player = new CircleShape();
-            Init();
+            _window = new RenderWindow(new VideoMode(1024, 768), "Shear Wall Demo!");
+            _window.SetVisible(true);
+            _window.SetVerticalSyncEnabled(true);
+
+            // Set up event handlers
+            _window.Closed += _window_Closed;
+            _window.KeyPressed += _window_KeyPressed;
         }
 
-        public void Init()
+        private void Initialize()
         {
-            player.Radius = 40.0f;
-            player.Position = new Vector2f(100.0f, 100.0f);
-            player.FillColor = new Color(Color.Cyan);
-            window.Closed += new EventHandler(this.OnClosed);
         }
 
         public void Run()
         {
-            while (window.IsOpen())
-            {
-                ProcessEvents();
-                Update();
-                Render();
-            }
+            // Build the startup menu scene
+            StartScene s = new StartScene(this);
+            s.Name = "start";
+            s.BackgroundTexture = ResourceManager.Instance.GetTexture("start");
+            SceneManager.Instance.AddScene(s);
+
+            // Build the main game scene
+            MainScene d = new MainScene(this);
+            d.Name = "main";
+            d.BackgroundTexture = ResourceManager.Instance.GetTexture("main");
+            SceneManager.Instance.AddScene(d);
+
+            // Start the game
+            SceneManager.Instance.GotoScene("start");
         }
 
-        private void ProcessEvents()
-        {
-            window.DispatchEvents();
-        }
 
         private void Update()
         {
@@ -46,36 +53,25 @@ namespace graphics_demo
 
         private void Render()
         {
-            window.Clear(Color.White);
-            window.Draw(player);
-            window.Display();
+            _window.Clear(Color.White);
+            _window.Display();
         }
 
-        private RenderWindow window;
-        private CircleShape player;
-        private bool isMovingUp;
-        private bool isMovingDown;
-        private bool isMovingLeft;
-        private bool isMovingRight;
 
 
-        protected virtual void OnClosed(Object sender, EventArgs e)
+
+
+        void _window_KeyPressed(object sender, KeyEventArgs e)
         {
-            RenderWindow window = (RenderWindow)sender;
-            window.Close();
+            SceneManager.Instance.CurrentScene.HandleInput(e);
         }
 
-        protected void handlePlayerInput(Keyboard.Key key, bool isPressed)
+        void _window_Closed(object sender, EventArgs e)
         {
-            if (key == Keyboard.Key.W)
-                isMovingUp = isPressed;
-            else if (key == Keyboard.Key.S)
-                isMovingDown = isPressed;
-            else if (key == Keyboard.Key.A)
-                isMovingLeft = isPressed;
-            else if (key == Keyboard.Key.D)
-                isMovingRight = isPressed;
+            _window.Close();
         }
+
+ 
 
 
     }
