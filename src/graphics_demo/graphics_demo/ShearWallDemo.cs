@@ -21,6 +21,9 @@ namespace graphics_demo
             // Set up event handlers
             _window.Closed += _window_Closed;
             _window.KeyPressed += _window_KeyPressed;
+            _window.MouseMoved += _window_MouseMoved;
+            _window.MouseButtonPressed += _window_MouseButtonPressed;
+            _window.MouseButtonReleased += _window_MouseButtonReleased;
         }
 
         private void Initialize()
@@ -29,37 +32,12 @@ namespace graphics_demo
 
         public void Run()
         {
-            // Build the startup menu scene
-            StartScene s = new StartScene(this);
-            s.Name = "start";
-            s.BackgroundTexture = ResourceManager.Instance.GetTexture("start");
-            SceneManager.Instance.AddScene(s);
-
-            // Build the main game scene
-            MainScene d = new MainScene(this);
-            d.Name = "main";
-            d.BackgroundTexture = ResourceManager.Instance.GetTexture("main");
-            SceneManager.Instance.AddScene(d);
-
-            // Start the game
-            SceneManager.Instance.GotoScene("start");
+            this.Initialize();
+            MainScene m = new MainScene(this);
+            m.Name = "main";            
+            SceneManager.Instance.AddScene(m);            
+            SceneManager.Instance.GotoScene("main");
         }
-
-
-        private void Update()
-        {
-            
-        }
-
-        private void Render()
-        {
-            _window.Clear(Color.White);
-            _window.Display();
-        }
-
-
-
-
 
         void _window_KeyPressed(object sender, KeyEventArgs e)
         {
@@ -71,8 +49,19 @@ namespace graphics_demo
             _window.Close();
         }
 
- 
+        void _window_MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            SceneManager.Instance.CurrentScene.HandleMouseMoved(e);
+        }
 
+        void _window_MouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            SceneManager.Instance.CurrentScene.HandleMouseButtonPressed(e);
+        }
 
+        void _window_MouseButtonReleased(object sender, MouseButtonEventArgs e)
+        {
+            SceneManager.Instance.CurrentScene.HandleMouseButtonReleased(e);
+        }
     }
 }

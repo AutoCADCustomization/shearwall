@@ -7,7 +7,7 @@ using SFML.Graphics;
 
 namespace graphics_demo
 {
-    class ShearPanel : Drawable
+    class ShearPanel
     {
         public enum PanelType
         {
@@ -25,46 +25,57 @@ namespace graphics_demo
 
         public ShearPanel(PanelType type, Vector2f start, Vector2f end)
         {
+            _resetType = type;
+            _resetStart = start;
+            _resetEnd = end;
+
             _type = type;
-            _base = start;
+            _start = start;
             _end = end;
             _rect = new RectangleShape();
+
+            Name = Guid.NewGuid().ToString();
         }
 
-        private Vector2f _base;
-        private Vector2f _end;
-        private double _length;
-        private PanelType _type;
-        private Color _color;
+        private Vector2f _start;
+        private Vector2f _end;        
+        private PanelType _type;        
         private RectangleShape _rect;
 
-        protected Vector2f Base
+        private Vector2f _resetStart;
+        private Vector2f _resetEnd;
+        private PanelType _resetType;
+
+        public string Name;
+
+        public Vector2f Start
         {
-            get { return _base; }
-            set { _base = value; }
+            get { return _start; }
+            set { _start = value; }
         }
 
-        protected Vector2f End
+        public Vector2f End
         {
             get { return _end; }
             set { _end = value; }
         }
 
-        protected double Length
+        public float Length
         {
-            get { return _length; }
-            set { _length = value; }
+            get { return _end.X - _start.X; }            
         }
 
-        protected PanelType Type
+        public PanelType Type
         {
             get { return _type; }
             set { _type = value; }
         }
 
-        public void Draw (RenderTarget target, RenderStates states)
+        public void ResetToStartingPosition()
         {
-            
+            _type = _resetType;
+            _start = _resetStart;
+            _end = _resetEnd;
         }
     
     }

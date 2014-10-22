@@ -14,9 +14,7 @@ namespace graphics_demo
         protected ShearWallDemo _demoObject;
 
         private DateTime currentTime = System.DateTime.Now;
-        private DateTime targetTime = System.DateTime.Now ;
-        private bool pause = false;
-        private int pauseSeconds = 0;
+        private DateTime targetTime = System.DateTime.Now ;        
 
         public Scene(ShearWallDemo demoObject)
         {
@@ -50,23 +48,7 @@ namespace graphics_demo
                 {
                     _demoObject.Window.Clear(Color.Black);
                     this.DrawBackground();
-
-                    if (!pause)
-                    {
-                        this.Update();
-                    }
-                    else
-                    {
-                        if (currentTime > targetTime)
-                        {
-                            pause = false;
-                            this.AfterPause();
-                        }
-                        else
-                        {
-                            this.OnPause();
-                        }
-                    }
+                    this.Update();                    
                     this.Draw();
                     _demoObject.Window.Display();
                     this.AfterDraw();
@@ -87,6 +69,18 @@ namespace graphics_demo
             // input handler for the scene
         }
 
+        public virtual void HandleMouseMoved(MouseMoveEventArgs e)
+        {
+        }
+
+        public virtual void HandleMouseButtonPressed(MouseButtonEventArgs e)
+        { 
+        }
+
+        public virtual void HandleMouseButtonReleased(MouseButtonEventArgs e)
+        {
+        }
+
         public virtual void DrawBackground()
         {
             
@@ -104,22 +98,7 @@ namespace graphics_demo
 
         public virtual void AfterDraw()
         {
-            
-        }
 
-        public void Pause(int milliseconds)
-        {
-            
-        }
-
-        public virtual void OnPause()
-        {
-            
-        }
-
-        public virtual void AfterPause()
-        {
-            
         }
         
     }
