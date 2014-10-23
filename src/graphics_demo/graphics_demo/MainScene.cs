@@ -12,6 +12,9 @@ namespace graphics_demo
         List<ShearPanel> entities = new List<ShearPanel>();
         Dictionary<string, RectangleShape> shapes = new Dictionary<string, RectangleShape>();
 
+        protected Sprite spCursor;
+        protected Sprite spDragCursor;
+
         bool reset = false;
 
         public MainScene(ShearWallDemo demoObject)
@@ -22,10 +25,14 @@ namespace graphics_demo
 
         public override void Initialize()
         {
+            Texture texture = ResourceManager.Instance.GetTexture("cursor");
+            spCursor = new Sprite(texture);
+            texture = ResourceManager.Instance.GetTexture("dragcursor");
+            spDragCursor = new Sprite(texture);
             this.RegisterEntity(ShearPanel.PanelType.NormalWall, new Vector2f(0, 0), new Vector2f(200f, 0), new RectangleShape());
-            this.RegisterEntity(ShearPanel.PanelType.NormalWall, new Vector2f(200f, 0), new Vector2f(400f, 0), new RectangleShape());
-            this.RegisterEntity(ShearPanel.PanelType.NormalWall, new Vector2f(400f, 0), new Vector2f(600f, 0), new RectangleShape());
-            this.RegisterEntity(ShearPanel.PanelType.NormalWall, new Vector2f(600f, 0), new Vector2f(800.0f, 0), new RectangleShape());
+            this.RegisterEntity(ShearPanel.PanelType.ShearWall, new Vector2f(200f, 0), new Vector2f(400f, 0), new RectangleShape());
+            this.RegisterEntity(ShearPanel.PanelType.DoorWall, new Vector2f(400f, 0), new Vector2f(600f, 0), new RectangleShape());
+            this.RegisterEntity(ShearPanel.PanelType.WindowWall, new Vector2f(600f, 0), new Vector2f(800.0f, 0), new RectangleShape());
             base.Initialize();
         }
 
@@ -46,6 +53,7 @@ namespace graphics_demo
 
         public override void HandleMouseMoved(MouseMoveEventArgs e)
         {
+            Vector2f pos = new Vector2f(e.X, e.Y);
             base.HandleMouseMoved(e);
         }
 
@@ -70,6 +78,11 @@ namespace graphics_demo
             {
                 shapes[e.Name].Draw(_demoObject.Window, RenderStates.Default);
             }
+
+            Vector2f pos = new Vector2f(Mouse.GetPosition(_demoObject.Window).X, Mouse.GetPosition(_demoObject.Window).Y);
+            spCursor.Position = pos;
+            spCursor.Draw(_demoObject.Window, RenderStates.Default);
+            
         }
 
 
@@ -88,6 +101,8 @@ namespace graphics_demo
 
             shape.Size = new Vector2f(e.Length, 100.0f);
             shape.Position = e.Start;
+            shape.OutlineColor = new Color(Color.Black);
+            shape.OutlineThickness = 1.0f;
             switch(e.Type)
             {
                 case ShearPanel.PanelType.NormalWall:
@@ -102,7 +117,7 @@ namespace graphics_demo
                 case ShearPanel.PanelType.ShearWall:
                     shape.FillColor = new Color(Color.Red);
                     break;
-            }            
+            }
         }
 
 

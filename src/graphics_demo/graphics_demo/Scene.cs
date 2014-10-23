@@ -39,21 +39,21 @@ namespace graphics_demo
             TimeSpan elapsedTime = TimeSpan.Zero;
 
             timer.Reset();
+            timer.Start();
             elapsedTime = timer.Elapsed;
 
             while (_demoObject.Window.IsOpen())
             {
-                currentTime = System.DateTime.Now;
                 if (elapsedTime >= dt)
                 {
-                    _demoObject.Window.Clear(Color.Black);
+                    _demoObject.Window.Clear(Color.White);
                     this.DrawBackground();
                     this.Update();                    
                     this.Draw();
                     _demoObject.Window.Display();
                     this.AfterDraw();
-
                     timer.Reset();
+                    timer.Start();
                     elapsedTime = timer.Elapsed;
                 }
                 else

@@ -17,6 +17,7 @@ namespace graphics_demo
             _window = new RenderWindow(new VideoMode(1024, 768), "Shear Wall Demo!");
             _window.SetVisible(true);
             _window.SetVerticalSyncEnabled(true);
+            _window.SetMouseCursorVisible(false);
 
             // Set up event handlers
             _window.Closed += _window_Closed;
@@ -28,6 +29,8 @@ namespace graphics_demo
 
         private void Initialize()
         {
+            ResourceManager.Instance.LoadTextureFromFile("cursor", @"resources\cursor.png");
+            ResourceManager.Instance.LoadTextureFromFile("dragcursor", @"resources\dragcursor.png");
         }
 
         public void Run()
