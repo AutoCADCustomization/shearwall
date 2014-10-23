@@ -16,6 +16,7 @@ namespace graphics_demo
         protected Sprite spDragCursor;
 
         bool reset = false;
+        private bool isMouseOver = false;
 
         public MainScene(ShearWallDemo demoObject)
             : base(demoObject)
@@ -54,6 +55,12 @@ namespace graphics_demo
         public override void HandleMouseMoved(MouseMoveEventArgs e)
         {
             Vector2f pos = new Vector2f(e.X, e.Y);
+            if (IsMouseOverIntersectionLine(pos))
+                isMouseOver = true;
+            else
+            {
+                isMouseOver = false;
+            }
             base.HandleMouseMoved(e);
         }
 
@@ -80,8 +87,17 @@ namespace graphics_demo
             }
 
             Vector2f pos = new Vector2f(Mouse.GetPosition(_demoObject.Window).X, Mouse.GetPosition(_demoObject.Window).Y);
-            spCursor.Position = pos;
-            spCursor.Draw(_demoObject.Window, RenderStates.Default);
+            if (isMouseOver)
+            {
+                spDragCursor.Position = pos;
+                spDragCursor.Draw(_demoObject.Window, RenderStates.Default);
+            }
+            else
+            {
+                spCursor.Position = pos;
+                spCursor.Draw(_demoObject.Window, RenderStates.Default);    
+            }
+            
             
         }
 
@@ -118,6 +134,18 @@ namespace graphics_demo
                     shape.FillColor = new Color(Color.Red);
                     break;
             }
+        }
+
+        private bool IsMouseOverIntersectionLine(Vector2f position)
+        {
+            bool isMouseOver = false;
+            foreach(ShearPanel e in entities)
+            {
+                FloatRect rect = shapes[e.Name].GetGlobalBounds();
+                if (rect.Contains(position.X, position.Y))
+                    return true;
+            }
+            return isMouseOver;
         }
 
 
