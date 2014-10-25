@@ -17,6 +17,12 @@ namespace graphics_demo
             WindowWall,
         }
 
+        public enum MouseOverType
+        {
+            PointerOverType,
+            DragOverType,
+        }
+
         public ShearPanel()
         {
             _type = PanelType.NormalWall;
@@ -33,6 +39,7 @@ namespace graphics_demo
             _start = start;
             _end = end;
             _rect = new RectangleShape();
+            _isSelected = false;
 
             Name = Guid.NewGuid().ToString();
         }
@@ -45,6 +52,8 @@ namespace graphics_demo
         private Vector2f _resetStart;
         private Vector2f _resetEnd;
         private PanelType _resetType;
+
+        private bool _isSelected;
 
         public string Name;
 
@@ -71,12 +80,19 @@ namespace graphics_demo
             set { _type = value; }
         }
 
+        public  bool IsSelected
+        {
+            get { return _isSelected; }
+            set { _isSelected = value; }
+        }
+
         public void ResetToStartingPosition()
         {
             _type = _resetType;
             _start = _resetStart;
             _end = _resetEnd;
         }
+
     
     }
 }
